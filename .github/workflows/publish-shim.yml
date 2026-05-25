@@ -1,0 +1,95 @@
+# When you merge to main with an updated release.json, this workflow:
+# 1. Tags abhi591/php-new-sdk at new_sdk_version (e.g. 2.0.0)
+# 2. Updates abhi591/php-old-sdk at shim_version (e.g. 1.5.0) with a separate require constraint
+#
+# Required secret on THIS repo (php-new-sdk): SHIM_REPO_TOKEN
+#   → GitHub PAT with repo scope, able to push to php-old-sdk
+
+name: Publish new-sdk + shim (separate versions)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'release.json'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout php-new-sdk
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read release.json
+        id: cfg
+        run: |
+          NEW=$(jq -r '.new_sdk_version' release.json)
+          SHIM=$(jq -r '.shim_version' release.json)
+          REQ=$(jq -r '.shim_require_new_sdk' release.json)
+          SHIM_REPO=$(jq -r '.shim_repo' release.json)
+          if [[ -z "$NEW" || "$NEW" == "null" || -z "$SHIM" || "$SHIM" == "null" ]]; then
+            echo "release.json must set new_sdk_version and shim_version"
+            exit 1
+          fi
+          echo "new_version=$NEW" >> "$GITHUB_OUTPUT"
+          echo "shim_version=$SHIM" >> "$GITHUB_OUTPUT"
+          echo "shim_require=$REQ" >> "$GITHUB_OUTPUT"
+          echo "shim_repo=$SHIM_REPO" >> "$GITHUB_OUTPUT"
+
+      - name: Set version in composer.json (new SDK)
+        run: |
+          jq --arg v "${{ steps.cfg.outputs.new_version }}" '.version = $v' composer.json > composer.tmp.json
+          mv composer.tmp.json composer.json
+
+      - name: Commit version bump (new SDK)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add composer.json
+          git diff --cached --quiet && echo "No composer change" || git commit -m "chore(release): ${{ steps.cfg.outputs.new_version }}"
+
+      - name: Tag and push php-new-sdk
+        run: |
+          git push origin main
+          git tag -f "${{ steps.cfg.outputs.new_version }}"
+          git push -f origin "${{ steps.cfg.outputs.new_version }}"
+
+      - name: Checkout php-old-sdk
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.cfg.outputs.shim_repo }}
+          token: ${{ secrets.SHIM_REPO_TOKEN }}
+          path: shim
+          fetch-depth: 0
+
+      - name: Update shim composer.json (separate version + require)
+        working-directory: shim
+        run: |
+          jq \
+            --arg v "${{ steps.cfg.outputs.shim_version }}" \
+            --arg req "${{ steps.cfg.outputs.shim_require }}" \
+            '.version = $v | .require."abhi591/php-new-sdk" = $req' \
+            composer.json > composer.tmp.json
+          mv composer.tmp.json composer.json
+
+      - name: Commit, tag and push php-old-sdk
+        working-directory: shim
+        env:
+          SHIM_VERSION: ${{ steps.cfg.outputs.shim_version }}
+          NEW_VERSION: ${{ steps.cfg.outputs.new_version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add composer.json
+          git diff --cached --quiet && echo "No shim composer change" || git commit -m "chore(release): shim ${SHIM_VERSION} requires new-sdk ${NEW_VERSION}"
+          git push origin main
+          git tag -f "${SHIM_VERSION}"
+          git push -f origin "${SHIM_VERSION}"
+
+      - name: Summary
+        run: |
+          echo "Published abhi591/php-new-sdk @ ${{ steps.cfg.outputs.new_version }}"
+          echo "Published abhi591/php-old-sdk @ ${{ steps.cfg.outputs.shim_version }} (requires ${{ steps.cfg.outputs.shim_require }})"
