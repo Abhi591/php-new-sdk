@@ -1,7 +1,7 @@
 {
-    "name": "wingify/wingify-fme-php-sdk",
-    "description": "Dummy Wingify package — two-repo E2E test only (no real SDK)",
-    "version": "1.0.0",
+    "name": "abhi591/php-new-sdk",
+    "description": "Dummy Wingify-side package for two-repo + Packagist E2E test",
+    "version": "1.0.1",
     "type": "library",
     "license": "Apache-2.0",
     "require": {

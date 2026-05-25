@@ -1,7 +1,8 @@
-# php-new-sdk (dummy)
+# php-new-sdk
 
-Maps to: **https://github.com/Abhi591/php-new-sdk**
+**Packagist:** `abhi591/php-new-sdk`  
+**GitHub:** https://github.com/Abhi591/php-new-sdk
 
-Composer package name: `wingify/wingify-fme-php-sdk` (test only).
+PHP namespace `wingify\` (dummy). Composer **package name** is `abhi591/php-new-sdk` so we can test Packagist without conflicting with production `wingify/wingify-fme-php-sdk`.
 
-Push this folder to GitHub — see [../two-repo-e2e-test/README.md](../two-repo-e2e-test/README.md).
+See [../two-repo-e2e-test/PACKAGIST.md](../two-repo-e2e-test/PACKAGIST.md).
