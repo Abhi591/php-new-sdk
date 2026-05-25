@@ -17,6 +17,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Default GITHUB_TOKEN is read-only unless this is set (fixes 403 on push to php-new-sdk).
+    permissions:
+      contents: write
     steps:
       - name: Checkout php-new-sdk
         uses: actions/checkout@v4
