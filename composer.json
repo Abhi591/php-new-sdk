@@ -1,7 +1,7 @@
 {
     "name": "abhi591/php-new-sdk",
     "description": "Dummy Wingify-side package for two-repo + Packagist E2E test",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "library",
     "license": "Apache-2.0",
     "require": {
