@@ -1,0 +1,15 @@
+{
+    "name": "wingify/wingify-fme-php-sdk",
+    "description": "Dummy Wingify package — two-repo E2E test only (no real SDK)",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "wingify\\": "src/"
+        }
+    }
+}
