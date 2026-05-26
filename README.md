@@ -1,8 +1,12 @@
-# php-new-sdk
+# abhi591/php-new-sdk
 
-**Packagist:** `abhi591/php-new-sdk`  
+**Packagist (test only):** `abhi591/php-new-sdk`  
 **GitHub:** https://github.com/Abhi591/php-new-sdk
 
-PHP namespace `wingify\` (dummy). Composer **package name** is `abhi591/php-new-sdk` so we can test Packagist without conflicting with production `wingify/wingify-fme-php-sdk`.
+This repo contains the **same source as** `packages/wingify-sdk/` in the monorepo (`wingify\` namespace). The Composer **name** is `abhi591/php-new-sdk` so we can test two-repo releases without publishing to `wingify/wingify-fme-php-sdk`.
 
-See [../two-repo-e2e-test/PACKAGIST.md](../two-repo-e2e-test/PACKAGIST.md).
+Production package: `wingify/wingify-fme-php-sdk`.
+
+## Release
+
+Edit `release.json`, merge to `main`. See [../docs/TWO_REPO_RELEASE_VERSIONS.md](../docs/TWO_REPO_RELEASE_VERSIONS.md).
