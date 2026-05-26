@@ -1,22 +1,29 @@
 {
-    "name": "abhi591/php-new-sdk",
-    "version": "2.2.0",
-    "keywords": ["wingify", "fme", "sdk", "e2e-test"],
-    "license": "Apache-2.0",
-    "authors": [{
-        "name": "Wingify developers",
-        "email": "dev@wingify.com"
-    }],
-    "description": "E2E test package: real Wingify FME SDK code (packages/wingify-sdk) under abhi591/php-new-sdk — not production wingify/wingify-fme-php-sdk",
-    "require": {
-        "php": ">=7.0",
-        "ramsey/uuid": "^3.0 || ^4.2",
-        "lastguest/murmurhash": "^2.1.1",
-        "vwo/vwo-fme-sdk-log-messages": "^1.5.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "wingify\\": "src/"
-        }
+  "name": "abhi591/php-new-sdk",
+  "version": "2.2.0",
+  "keywords": [
+    "wingify",
+    "fme",
+    "sdk",
+    "e2e-test"
+  ],
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Wingify developers",
+      "email": "dev@wingify.com"
     }
+  ],
+  "description": "E2E test package: real Wingify FME SDK code (packages/wingify-sdk) under abhi591/php-new-sdk — not production wingify/wingify-fme-php-sdk",
+  "require": {
+    "php": ">=7.0",
+    "ramsey/uuid": "^3.0 || ^4.2",
+    "lastguest/murmurhash": "^2.1.1",
+    "vwo/vwo-fme-sdk-log-messages": "^1.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "wingify\\": "src/"
+    }
+  }
 }
