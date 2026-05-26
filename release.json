@@ -1,6 +1,6 @@
 {
-    "new_sdk_version": "2.1.0",
-    "shim_version": "1.8.0",
+    "new_sdk_version": "2.2.0",
+    "shim_version": "1.9.0",
     "shim_require_new_sdk": "^2.0",
     "shim_repo": "Abhi591/php-old-sdk",
     "shim_package_name": "abhi591/php-old-sdk"
