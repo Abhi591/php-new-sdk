@@ -12,6 +12,7 @@ on:
     branches: [main]
     paths:
       - 'release.json'
+      - '.github/workflows/publish-shim.yml'
   workflow_dispatch:
 
 jobs:
